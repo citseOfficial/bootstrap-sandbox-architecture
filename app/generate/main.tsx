@@ -74,7 +74,7 @@ export function Main({ fileTree, data }: FileTreeProps) {
               className="text-base font-semibold text-text-color"
               id="name-proyect-structure"
             >
-              {nameProyect}
+              {nameProyect}.zip
             </h1>
           </div>
           <div
