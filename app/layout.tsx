@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import { BiLogoInstagramAlt, BiLogoGithub, BiLogoRedux } from "react-icons/bi";
 
 import "./globals.css";
 import Link from "next/link";
-import Image from "next/image";
-import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] });
+const openSans = Open_Sans({ weight: "500", subsets: ["hebrew"] });
 
 export const metadata: Metadata = {
   title: "Bootstrap Sandbox Architecture",
@@ -22,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={openSans.className}>
         <div className="grid grid-cols-12 h-screen bg-bg-primary">
           <div className="border-r border-line flex flex-col gap-5 justify-between items-center">
             <div className="py-5">

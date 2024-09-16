@@ -10,7 +10,6 @@ const architectures = [
   "CleanArchitecture",
   "LayeredArchitecture",
 ];
-const cookieStore = cookies();
 
 async function sendMessage(message: string) {
   try {
@@ -28,6 +27,7 @@ async function sendMessage(message: string) {
 }
 
 async function load() {
+  const cookieStore = cookies();
   const requirements = cookieStore.get("requirements")?.value;
   const valueMagnitudeProyect = cookieStore.get("valueMagnitudeProyect")?.value;
   const valueScopeProyect = cookieStore.get("valueScopeProyect")?.value;

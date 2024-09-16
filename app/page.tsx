@@ -3,7 +3,7 @@ import { useState } from "react";
 import { RadioGroup } from "./components/RadioGroup";
 import { InputMetadato } from "./components/InputMetadato";
 import { InputSR } from "./components/InputSR";
-import { getCookies, setCookie, deleteCookie, getCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import Link from "next/link";
 
 export default function Home() {
