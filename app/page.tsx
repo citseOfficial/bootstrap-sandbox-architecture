@@ -6,6 +6,8 @@ import { InputSR } from "./components/InputSR";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 
+export const runtime = "edge";
+
 export default function Home() {
   const typeProyect: { value: string; label: string }[] = [
     { value: "graddle", label: "Graddle" },

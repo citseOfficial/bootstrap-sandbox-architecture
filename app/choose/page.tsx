@@ -3,6 +3,8 @@ import { generateText } from "ai";
 import { cookies } from "next/headers";
 import ArchitectureSelector from "./ArchitectureSelector";
 
+export const runtime = 'edge';
+
 const architectures = [
   "MVC",
   "MicroservicesArchitecture",

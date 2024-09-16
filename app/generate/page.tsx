@@ -3,6 +3,8 @@ import { generateText } from "ai";
 import { Main } from "./main";
 import { cookies } from "next/headers";
 
+export const runtime = 'edge';
+
 type FileSystemNode = {
   id: number;
   name: string;
