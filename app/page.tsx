@@ -5,6 +5,7 @@ import { InputMetadato } from "./components/InputMetadato";
 import { InputSR } from "./components/InputSR";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
+import { PiFileSqlLight } from "react-icons/pi";
 
 export const runtime = "edge";
 
@@ -17,6 +18,12 @@ export default function Home() {
     { value: "mediano", label: "Mediano" },
     { value: "grande", label: "Grande" },
   ];
+
+  const typeDatabase: { value: string; label: string }[] = [
+    { value: "mysql", label: "Mysql" },
+    { value: "pgsql", label: "Pgsql" },
+  ];
+
   const versionSpringBootProyect: { value: string; label: string }[] = [
     { value: "3.4.0 (SNAPSHOT)", label: "3.4.0 (SNAPSHOT)" },
     { value: "3.3.4 (SNAPSHOT)", label: "3.3.4 (SNAPSHOT)" },
@@ -26,13 +33,14 @@ export default function Home() {
   ];
 
   const [valueTypeProyect, setValueTypeProyect] = useState("graddle");
+  const [valueTypeDatabase, setValueTypeDatabase] = useState("mysql");
   const [valueMagnitudeProyect, setValueMagnitudeProyect] = useState("pequeño");
   const [valueVersionSpringBootProyect, setVersionSpringBootProyect] =
     useState("3.3.3");
   const [valueGroupProyect, setValueGroupProyect] = useState("com.example");
   const [valueArtefactProyect, setValueArtefactProyect] = useState("demo");
   const [valueNameProyect, setValueNameProyect] = useState("demo");
-  const [valueScopeProyect, setValueScopeProyect] = useState<string>("10");
+  const [valueScopeProyect, setValueScopeProyect] = useState<string>("100");
   const [inputs, setInputs] = useState<string[]>([]);
 
   const handleSubmit = () => {
@@ -123,7 +131,6 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col w-full h-fit gap-2">
-              <h4 className="text-white font-semibold">Mas Opciones</h4>
               <form className="flex gap-5 flex-wrap px-5">
                 <div className="flex justify-center items-center w-full">
                   <p className="mr-5 text-[text-color] text-sm font-medium w-64">
@@ -132,7 +139,7 @@ export default function Home() {
                   <input
                     id="group-proyect"
                     type="number"
-                    placeholder="0"
+                    placeholder={valueScopeProyect}
                     onChange={(e) => setValueScopeProyect(e.target.value)}
                     className="appearance-none bg-bg-primary text-sm border-b-2 border-gray-500 py-2 w-full max-w-full text-text-color leading-tight focus:outline-none focus:border-text-color"
                   />
@@ -153,6 +160,23 @@ export default function Home() {
                 />
               </form>
             </div>
+
+            <div className="flex flex-col w-full max-h-fit">
+              <div className="flex gap-2">
+                <h4 className="text-[text-color] font-semibold text-base">
+                  -
+                </h4>
+                <PiFileSqlLight className="text-xl text-[text-color] bx bxl-github text-black hover:text-slate-600 cursor-pointer" />
+              </div>
+              <form className="flex gap-2 flex-wrap">
+                <RadioGroup
+                  name="typeDataBase"
+                  items={typeDatabase}
+                  value={valueTypeDatabase}
+                  onChange={setValueTypeDatabase}
+                />
+              </form>
+            </div>
           </div>
           <div className="border-line col-start-6 col-span-7 flex flex-col w-full px-8">
             <div className="flex flex-row justify-between items-center w-full">
@@ -162,10 +186,10 @@ export default function Home() {
               <div
                 onClick={addInput}
                 id="new-requirement"
-                className="bg-bg-primary border-2 flex rounded-[4px] px-7 py-3 m-3 font-normal border-border-button w-fit cursor-pointer text-text-color text-xs hover:bg-border-button hover:text-bg-primary"
+                className="bg-bg-primary border-2 flex rounded-[5px] px-7 py-3 m-3 font-normal border-border-button w-fit cursor-pointer text-text-color text-xs hover:bg-border-button hover:text-bg-primary"
               >
                 <p className="mr-1 font-bold">NUEVO RQMT.</p>
-                <p className="ml-1 font-normal">CTRL + R</p>
+                <p className="ml-1 font-normal text-gray-500">CTRL + R</p>
               </div>
             </div>
             <div
@@ -193,10 +217,10 @@ export default function Home() {
             <div
               onClick={handleSubmit}
               id="generate-arquitecture"
-              className="bg-bg-primary border-2 flex rounded-[4px] px-7 py-3 m-3 border-border-button w-fit cursor-pointer text-text-color text-sm hover:bg-text-color hover:text-bg-primary"
+              className="bg-bg-primary border-2 flex rounded-[5px] px-7 py-3 m-3 border-border-button w-fit cursor-pointer text-text-color text-sm hover:bg-text-color hover:text-bg-primary"
             >
-              <p className="mr-1 font-bold">GENERAR ARQ.</p>
-              <p className="ml-1 font-normal">CTRL + ⏎</p>
+              <p className="mr-1 font-extrabold">GENERAR ARQ.</p>
+              <p className="ml-1 font-normal text-gray-500">CTRL + ⏎</p>
             </div>
           </Link>
         </div>

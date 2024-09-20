@@ -3,7 +3,7 @@ import { generateText } from "ai";
 import { cookies } from "next/headers";
 import ArchitectureSelector from "./ArchitectureSelector";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const architectures = [
   "MVC",
@@ -34,7 +34,7 @@ async function load() {
   const valueMagnitudeProyect = cookieStore.get("valueMagnitudeProyect")?.value;
   const valueScopeProyect = cookieStore.get("valueScopeProyect")?.value;
 
-  let messageSelectedArchitecture = `Evalua de acuerdo a este array de requemientos: ${requirements} y escoge maximo tres arquitecturas de este array: ${architectures}, considera que la magnitud del proyecto es ${valueMagnitudeProyect} y el alcance que tendra es de ${valueScopeProyect} usuarios. Devuelveme un array con lo que escogistes, solo el array.`;
+  let messageSelectedArchitecture = `Evalua de acuerdo a este array de requemientos: ${requirements} y escoge maximo tres arquitecturas de este array: ${architectures}, considera que la magnitud del proyecto es ${valueMagnitudeProyect} y el alcance que tendra es de ${valueScopeProyect} usuarios. Devuelveme un array con lo que escogistes, solo el array que tenga objectos con atributo de nombre_arquitectura, recomendacion_porcentaje, rendimiento_porcentaje, complejidad_porcentaje y fiabilidad_porcentaje. , quita esto: json y las comillas.`;
   const selectedArchitecture = await sendMessage(messageSelectedArchitecture);
 
   await new Promise((resolve) => setTimeout(resolve, 2000));
