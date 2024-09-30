@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 
+export const runtime = "edge";
+
 export const metadata: Metadata = {
   title: "Términos de Uso",
   description:
