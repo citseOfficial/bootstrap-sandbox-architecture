@@ -65,7 +65,7 @@ export function Main({ fileTree, data }: FileTreeProps) {
   return (
     <div
       id="structure"
-      className="grid grid-rows-8 grid-flow-col h-full w-full gap-2 "
+      className="grid grid-rows-8 grid-flow-col h-screen w-full gap-2 "
     >
       <div className="row-start-1 row-end-8 grid grid-cols-12 gap-4">
         <div className="col-start-2 col-end-5 flex flex-col">

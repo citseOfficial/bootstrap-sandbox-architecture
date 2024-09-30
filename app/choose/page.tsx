@@ -7,10 +7,10 @@ export const runtime = "edge";
 
 const architectures = [
   "MVC",
-  "MicroservicesArchitecture",
-  "HexagonalArchitecture",
-  "CleanArchitecture",
-  "LayeredArchitecture",
+  "Microservices Architecture",
+  "Hexagonal Architecture",
+  "Clean Architecture",
+  "Layered Architecture",
 ];
 
 async function sendMessage(message: string) {
@@ -34,7 +34,7 @@ async function load() {
   const valueMagnitudeProyect = cookieStore.get("valueMagnitudeProyect")?.value;
   const valueScopeProyect = cookieStore.get("valueScopeProyect")?.value;
 
-  let messageSelectedArchitecture = `Evalua de acuerdo a este array de requemientos: ${requirements} y escoge maximo tres arquitecturas de este array: ${architectures}, considera que la magnitud del proyecto es ${valueMagnitudeProyect} y el alcance que tendra es de ${valueScopeProyect} usuarios. Devuelveme un array con lo que escogistes, solo el array que tenga objectos con atributo de nombre_arquitectura, recomendacion_porcentaje, rendimiento_porcentaje, complejidad_porcentaje y fiabilidad_porcentaje. , quita esto: json y las comillas.`;
+  let messageSelectedArchitecture = `Evalua de acuerdo a este array de requemientos: ${requirements} y escoge maximo tres arquitecturas de este array: ${architectures}, considera que la magnitud del proyecto es ${valueMagnitudeProyect} y el alcance que tendra es de ${valueScopeProyect} usuarios. Devuelveme un array con lo que escogistes, solo el array que tenga objectos con atributo de nombre_arquitectura, recomendacion_porcentaje, rendimiento_porcentaje, complejidad_porcentaje y fiabilidad_porcentaje. , quita esto: json y las comillas. Recuerda solo quiero el array, nada mas de texto`;
   const selectedArchitecture = await sendMessage(messageSelectedArchitecture);
 
   await new Promise((resolve) => setTimeout(resolve, 2000));

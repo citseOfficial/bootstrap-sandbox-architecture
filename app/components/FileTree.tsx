@@ -16,7 +16,7 @@ interface FileTreeProps {
 
 const FileTree: React.FC<FileTreeProps> = ({ tree, onFileClick }) => {
   return (
-    <ul className="pl-4 list-none">
+    <ul className="pl-4 list-none w-full h-auto max-h-[100%] overflow-y-auto overflow-x-auto">
       {tree.map((node) => (
         <div key={node.id}>
           <TreeNode key={node.id} node={node} onFileClick={onFileClick} />

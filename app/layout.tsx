@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import { BiLogoInstagramAlt, BiLogoGithub, BiLogoRedux } from "react-icons/bi";
 import { LuArrowLeftToLine } from "react-icons/lu";
 import { FcSupport } from "react-icons/fc";
@@ -7,7 +7,10 @@ import { FcSupport } from "react-icons/fc";
 import "./globals.css";
 import Link from "next/link";
 
-const openSans = Space_Mono({ weight: "400", subsets: ["vietnamese"] });
+const openSans = DM_Sans({
+  weight: ["300", "400", "500", "600"],
+  subsets: ["latin-ext"],
+});
 
 export const metadata: Metadata = {
   title: "Bootstrap Sandbox Architecture",
@@ -41,7 +44,7 @@ export default function RootLayout({
         </div>
         <div className="max-lg:hidden grid grid-cols-12 h-screen bg-bg-primary">
           <div className="border-r border-line flex flex-col gap-5 justify-between items-center">
-            <div className="py-12">
+            <div className="py-12 invisible">
               <div className="w-fit flex flex-col items-center hover:bg-slate-50 p-4 rounded-full cursor-pointer">
                 <LuArrowLeftToLine className="text-xl text-[text-color] bx bxl-github text-black cursor-pointer" />
               </div>

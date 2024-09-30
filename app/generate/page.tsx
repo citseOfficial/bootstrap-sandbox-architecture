@@ -3,7 +3,7 @@ import { generateText } from "ai";
 import { Main } from "./main";
 import { cookies } from "next/headers";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 type FileSystemNode = {
   id: number;
@@ -13,6 +13,8 @@ type FileSystemNode = {
   children?: FileSystemNode[];
   content: string | null;
 };
+
+let fileTree: FileSystemNode[] = [];
 
 const buildTree = (data: FileSystemNode[]): FileSystemNode[] => {
   const tree: FileSystemNode[] = [];
@@ -46,12 +48,24 @@ async function sendMessage(message: string) {
   }
 }
 
+function extractArray(text: string) {
+  const arrayRegex = /\[(\s|.)*?\]/; // Regex para encontrar el array completo
+  const match = text.match(arrayRegex); // Buscar el array en el texto
+
+  if (match) {
+    return match[0]; // Retornar el array encontrado
+  } else {
+    return null; // Si no encuentra el array
+  }
+}
+
 async function load() {
   const cookieStore = cookies();
   const requirements = cookieStore.get("requirements")?.value;
   const valueNameProyect = cookieStore.get("valueNameProyect")?.value;
   const valueGroupProyect = cookieStore.get("valueGroupProyect")?.value;
   const valueArtefactProyect = cookieStore.get("valueArtefactProyect")?.value;
+  const valueTypeDatabase = cookieStore.get("valueTypeDatabase")?.value;
   const architectureSelected = cookieStore.get("architectureSelected")?.value;
   const valueVersionSpringBootProyect = cookieStore.get(
     "valueVersionSpringBootProyect"
@@ -61,42 +75,6 @@ async function load() {
   const dataModels = await sendMessage(messageDataModels);
 
   let messageFileSystemBuild = `Mira la estructura de este array: [
-    {
-      "id": 1,
-      "name": ".gitignore",
-      "type": "file",
-      "parent": null,
-      "content": "build/\\n.gradle/\\n*.jar\\n*.war\\n*.iml\\n.gradle/\\n.env\\n"
-    },
-    { "id": 2, "name": "gradle", "type": "folder", "parent": null, "content": null },
-    {
-      "id": 3,
-      "name": "HELP.md",
-      "type": "file",
-      "parent": null,
-      "content": "# Project Help\\nThis project uses Gradle for building Java applications."
-    },
-    {
-      "id": 4,
-      "name": "gradlew",
-      "type": "file",
-      "parent": null,
-      "content": "Gradle Wrapper script for Unix-based systems."
-    },
-    {
-      "id": 5,
-      "name": "gradlew.bat",
-      "type": "file",
-      "parent": null,
-      "content": "Gradle Wrapper script for Windows systems."
-    },
-    {
-      "id": 6,
-      "name": "build.gradle",
-      "type": "file",
-      "parent": null,
-      "content": "plugins {\\n    id 'java'\\n}\\n\\nrepositories {\\n    mavenCentral()\\n}\\n\\ndependencies {\\n    implementation 'org.springframework.boot:spring-boot-starter'\\n}\\ntest {\\n    useJUnitPlatform()\\n}"
-    },
     { "id": 7, "name": "src", "type": "folder", "parent": null, "content": null },
     { "id": 8, "name": "main", "type": "folder", "parent": 7, "content": null },
     { "id": 9, "name": "java", "type": "folder", "parent": 8, "content": null },
@@ -111,40 +89,90 @@ async function load() {
       "content": "package com.dino.dino;\\n\\nimport org.springframework.boot.SpringApplication;\\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\\n\\n@SpringBootApplication\\npublic class DinoApplication {\\n    public static void main(String[] args) {\\n        SpringApplication.run(DinoApplication.class, args);\\n    }\\n}"
     },
     { "id": 14, "name": "resources", "type": "folder", "parent": 8, "content": null },
-    {
-      "id": 15,
-      "name": "application.properties",
-      "type": "file",
-      "parent": 14,
-      "content": "spring.application.name=DinoApplication\\nserver.port=8080\\n"
-    },
-    {
-      "id": 16,
-      "name": "settings.gradle",
-      "type": "file",
-      "parent": null,
-      "content": "rootProject.name = 'dino'"
-    }
-  ], ahora modifícalo con estas consideraciones: el grupo es = ${valueGroupProyect}, el artefacto = ${valueArtefactProyect}, el nombre del proyecto = ${valueNameProyect}, la versión de spring boot = ${valueVersionSpringBootProyect}, considera que es una arquitectura ${architectureSelected} en spring boot, quiero que lo equimatices con esa arquitectura y pongas todas las carpetas que se tiene que considerar en esa arquitectura, integra, implementa y configura io.sentry:sentry-spring-boot-starter-jakarta, también org.springframework.boot:spring-boot-starter-actuator y io.micrometer:micrometer-registry-prometheus, por último agrega estos modelos de datos = ${dataModels}. Dame solo el array, quita esto: json y las comillas, nada mas.`;
+  ], ahora modifícalo con estas consideraciones: el grupo es = ${valueGroupProyect}, el artefacto = ${valueArtefactProyect}, el nombre del proyecto = ${valueNameProyect}, la versión de spring boot = ${valueVersionSpringBootProyect}, considera que es una arquitectura ${architectureSelected} en spring boot, quiero que lo equimatices con esa arquitectura y pongas todas las carpetas que se tiene que considerar en esa arquitectura, por último agrega estos modelos de datos = ${dataModels} y ponle atributos y relaciones entre ellos, recuerda es un proyecto en Java con Spring Boot, tambien quiero que generes un archivo script de base de datos ${valueTypeDatabase} del proyecto y ponlo dentro de la carpeta resources. Revisa bien el contenido y corrigelo, Dame solo el array que este de la carpeta src para abajo y quita el formato json. Recuerda solo quiero el array, nada mas de texto`;
 
   const fileSystemBuild = await sendMessage(messageFileSystemBuild);
   console.log(fileSystemBuild);
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   return fileSystemBuild;
 }
 
+function removeFileByName(fileName: string) {
+  fileTree = fileTree.filter((file) => file.name !== fileName);
+}
+
+function searchParentFileByName(fileName: string) {
+  const file = fileTree.find((file) => file.name === fileName);
+  return file ? file.id : null;
+}
+
+function updateFileContent(fileName: string, newContent: string) {
+  fileTree = fileTree.map((file) => {
+    if (file.name === fileName) {
+      return { ...file, content: newContent };
+    }
+    return file;
+  });
+}
+
+function addFile(newFile: FileSystemNode) {
+  fileTree.push(newFile);
+}
+
 export default async function Generate() {
+  const cookieStore = cookies();
+  const valueGroupProyect = cookieStore.get("valueGroupProyect")?.value;
+  const valueArtefactProyect = cookieStore.get("valueArtefactProyect")?.value;
+  const valueVersionSpringBootProyect = cookieStore.get(
+    "valueVersionSpringBootProyect"
+  )?.value;
+  const valueNameProyect = cookieStore.get("valueNameProyect")?.value;
   let fileSytemDataProyectSelected = await load();
-  const fileTree = buildTree(JSON.parse(fileSytemDataProyectSelected));
+  fileTree = JSON.parse(fileSytemDataProyectSelected);
+  addFile({
+    id: 1392,
+    name: "settings.gradle",
+    type: "file",
+    parent: null,
+    content: `pluginManagement {\n  repositories {\n    maven { url 'https://repo.spring.io/milestone' }\n    maven { url 'https://repo.spring.io/snapshot' }\n    gradlePluginPortal()\n  }\n}\nrootProject.name = '${valueNameProyect}'\n`,
+  });
+  addFile({
+    id: 116,
+    name: "build.gradle",
+    type: "file",
+    parent: null,
+    content: `plugins {\n\tid 'java'\n\tid 'org.springframework.boot' version '${valueVersionSpringBootProyect}'\n\tid 'io.spring.dependency-management' version '1.1.6'\n\tid \"io.sentry.jvm.gradle\" version \"4.11.0\"\n}\n\ngroup = '${valueGroupProyect}'\nversion = '0.0.1-SNAPSHOT'\n\njava {\n\ttoolchain {\n\t\tlanguageVersion = JavaLanguageVersion.of(17)\n\t}\n}\n\nrepositories {\n\tmavenCentral()\n\n\tmaven { url 'https://repo.spring.io/milestone' }\n\n\tmaven { url 'https://repo.spring.io/snapshot' }\n}\n\next {\n\tset('sentryVersion', \"7.14.0\")\n}\n\ndependencies {\n\timplementation 'org.springframework.boot:spring-boot-starter-web'\n\timplementation 'org.springframework.boot:spring-boot-starter-actuator'\n\timplementation 'io.sentry:sentry-spring-boot-starter-jakarta'\n\truntimeOnly 'io.micrometer:micrometer-registry-prometheus'\n\ttestImplementation 'org.springframework.boot:spring-boot-starter-test'\n\ttestRuntimeOnly 'org.junit.platform:junit-platform-launcher'\n}\n\nsentry {\n  includeSourceContext = true\n\n  org = \"citse\"\n  projectName = \"${valueNameProyect}\"\n  authToken = System.getenv(\"SENTRY_AUTH_TOKEN\")\n}\n\ndependencyManagement {\n\timports {\n\t\tmavenBom \"io.sentry:sentry-bom:\${sentryVersion}\"\n\t}\n}\n\ntasks.named('test') {\n\tuseJUnitPlatform()\n}\n`,
+  });
+  removeFileByName("application.properties");
+  addFile({
+    id: 115,
+    name: "application.yml",
+    type: "file",
+    parent: searchParentFileByName("resources"),
+    content: `server:\n  port: 8080\n\nspring.profiles.active: development\n\nmanagement:\n  endpoint:\n    env:\n      show-values: ALWAYS\n    health:\n      include:\n        show-details: always\n  endpoints:\n    web:\n      sensitive-information-exposure: always\n      exposure:\n        include: "*"\n    health:\n      include:\n        show-details: always\n\nsentry:\n  dns: {dns}\n  in-app-includes: ${valueGroupProyect}.${valueNameProyect} # directory-app \n  send-default-pii: true\n`,
+  });
+  addFile({
+    id: 1909,
+    name: "HELP.md",
+    type: "file",
+    parent: null,
+    content:
+      "# Getting Started\n\n### Reference Documentation\nFor further reference, please consider the following sections:\n\n* [Official Gradle documentation](https://docs.gradle.org)\n* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.2.9/gradle-plugin/reference/html/)\n* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.2.9/gradle-plugin/reference/html/#build-image)\n* [Sentry](https://docs.sentry.io/platforms/java/)\n* [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/3.2.9/reference/htmlsingle/index.html#actuator)\n* [Prometheus](https://docs.spring.io/spring-boot/docs/3.2.9/reference/htmlsingle/index.html#actuator.metrics.export.prometheus)\n\n### Guides\nThe following guides illustrate how to use some features concretely:\n\n* [Getting Started with Sentry](https://docs.sentry.io/platforms/java/guides/spring-boot/)\n* [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)\n\n### Additional Links\nThese additional references should also help you:\n\n* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)\n",
+  });
+  addFile({
+    id: 1,
+    name: ".gitignore",
+    type: "file",
+    parent: null,
+    content: "build/\n.gradle/\n*.jar\n*.war\n*.iml\n.gradle/\n.env\n",
+  });
+
+  const fileTreeBuilder = buildTree(fileTree);
 
   return (
     <>
-      <Main
-        fileTree={fileTree}
-        data={JSON.parse(fileSytemDataProyectSelected)}
-      />
+      <Main fileTree={fileTreeBuilder} data={fileTree} />
     </>
   );
 }
