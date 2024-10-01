@@ -200,15 +200,15 @@ export default function Home() {
           <div className="border-line col-start-6 col-span-7 flex flex-col w-full px-8">
             <div className="flex flex-row justify-between items-center w-full border-b pb-5">
               <p className="text-black text-base font-semibold">
-                Requermientos funcionales
+                Requermientos del Sistema
               </p>
               <div
                 onClick={addInput}
                 id="new-requirement"
                 className="bg-bg-primary border-2 flex rounded-[5px] px-7 py-3 m-3 font-normal border-border-button w-fit cursor-pointer text-text-color text-xs hover:bg-border-button hover:text-bg-primary"
               >
-                <p className="mr-1 font-bold">NUEVO RQMT.</p>
-                <p className="ml-1 font-normal text-gray-500">CTRL + R</p>
+                <p className="mr-1 font-bold">NUEVO RQMT. ↓</p>
+                {/* <p className="ml-1 font-normal text-gray-500">CTRL + R</p> */}
               </div>
             </div>
             <div
@@ -238,8 +238,8 @@ export default function Home() {
               id="generate-arquitecture"
               className="bg-bg-primary border-2 flex rounded-[5px] px-7 py-3 m-3 border-border-button w-fit cursor-pointer text-text-color text-sm hover:bg-text-color hover:text-bg-primary"
             >
-              <p className="mr-1 font-extrabold">GENERAR ARQ.</p>
-              <p className="ml-1 font-normal text-gray-500">CTRL + ⏎</p>
+              <p className="mr-1 font-extrabold">GENERAR ARQ. →</p>
+              {/* <p className="ml-1 font-normal text-gray-500">CTRL + ⏎</p> */}
             </div>
           </Link>
         </div>

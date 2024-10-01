@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import { BiLogoInstagramAlt, BiLogoGithub, BiLogoRedux } from "react-icons/bi";
+import { BiLogoInstagramAlt, BiLogoGithub, BiLogoRedux, BiNetworkChart } from "react-icons/bi";
 import { LuArrowLeftToLine } from "react-icons/lu";
 import { FcSupport } from "react-icons/fc";
 
@@ -43,10 +43,10 @@ export default function RootLayout({
           </Link>
         </div>
         <div className="max-lg:hidden grid grid-cols-12 h-screen bg-bg-primary">
-          <div className="border-r border-line flex flex-col gap-5 justify-between items-center">
-            <div className="py-12 invisible">
+          <div className=" border-line flex flex-col gap-5 justify-between items-center shadow-xl">
+            <div className="py-8 ">
               <div className="w-fit flex flex-col items-center hover:bg-slate-50 p-4 rounded-full cursor-pointer">
-                <LuArrowLeftToLine className="text-xl text-[text-color] bx bxl-github text-black cursor-pointer" />
+                <BiNetworkChart className="text-3xl text-[text-color] bx bxl-github text-black cursor-pointer" />
               </div>
             </div>
             <div className="py-5">
@@ -66,7 +66,7 @@ export default function RootLayout({
               </Link>
             </div>
           </div>
-          <div className="col-span-11">{children}</div>
+          <div className="col-span-11 h-screen">{children}</div>
         </div>
       </body>
     </html>

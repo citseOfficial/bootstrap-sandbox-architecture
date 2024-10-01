@@ -67,7 +67,7 @@ export function Main({ fileTree, data }: FileTreeProps) {
       id="structure"
       className="grid grid-rows-8 grid-flow-col h-screen w-full gap-2 "
     >
-      <div className="row-start-1 row-end-8 grid grid-cols-12 gap-4">
+      <div className="row-start-1 row-end-8 grid grid-cols-12 gap-4 h-full max-h-screen">
         <div className="col-start-2 col-end-5 flex flex-col">
           <div className="border border-line mt-5 mb-2 rounded-[2px] p-2.5">
             <h1
@@ -86,14 +86,14 @@ export function Main({ fileTree, data }: FileTreeProps) {
         </div>
         <Spectator key={fileNode?.id} file={fileNode} />
       </div>
-      <div className="row-start-8 flex justify-center items-center bg-bg-primary-live">
+      <div className="row-start-8 flex justify-center items-center bg-bg-primary-live h-full">
         <div
           onClick={dowloadArquitecture}
           id="dowload-arquitecture"
           className="bg-bg-primary border-2 flex rounded-[4px] px-7 py-3 m-3 font-normal border-border-button w-fit cursor-pointer text-text-color text-sm hover:bg-border-button hover:text-bg-primary"
         >
-          <p className="mr-1 font-bold">DESCARGAR</p>
-          <p className="ml-1 font-normal">CTRL + ⏎</p>
+          <p className="mr-1 font-bold">DESCARGAR ⏏︎</p>
+          {/* <p className="ml-1 font-normal">CTRL + ⏎</p> */}
         </div>
 
         <Link href={"/"}>
@@ -101,8 +101,8 @@ export function Main({ fileTree, data }: FileTreeProps) {
             id="close-dowload"
             className="bg-bg-primary border-2 flex rounded-[4px] px-7 py-3 m-3 font-normal border-border-button w-fit cursor-pointer text-text-color text-sm hover:bg-border-button hover:text-bg-primary"
           >
-            <p className="mr-1 font-bold">CANCELAR</p>
-            <p className="ml-1 font-normal">ESC</p>
+            <p className="mr-1 font-bold">CANCELAR ␛</p>
+            {/* <p className="ml-1 font-normal">ESC</p> */}
           </div>
         </Link>
       </div>
