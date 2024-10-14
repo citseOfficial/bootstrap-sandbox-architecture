@@ -34,6 +34,7 @@ export default function Home() {
     { value: "3.2.10", label: "3.2.10" },
   ];
 
+  const [valueCreditProyect, setValueCreditProyect] = useState(20);
   const [valueTypeProyect, setValueTypeProyect] = useState("graddle");
   const [valueTypeDatabase, setValueTypeDatabase] = useState("mySQL");
   const [valueMagnitudeProyect, setValueMagnitudeProyect] = useState("pequeño");
@@ -238,7 +239,7 @@ export default function Home() {
               id="generate-arquitecture"
               className="bg-bg-primary border-2 flex rounded-[5px] px-7 py-3 m-3 border-border-button w-fit cursor-pointer text-text-color text-sm hover:bg-text-color hover:text-bg-primary"
             >
-              <p className="mr-1 font-extrabold">GENERAR ARQ. →</p>
+              <p className="mr-1 font-extrabold">GENERAR ARQ. → </p>
               {/* <p className="ml-1 font-normal text-gray-500">CTRL + ⏎</p> */}
             </div>
           </Link>

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import { BiLogoInstagramAlt, BiLogoGithub, BiLogoRedux, BiNetworkChart } from "react-icons/bi";
-import { LuArrowLeftToLine } from "react-icons/lu";
-import { FcSupport } from "react-icons/fc";
+import {
+  BiLogoInstagramAlt,
+  BiLogoGithub,
+  BiNetworkChart,
+  BiCoinStack,
+} from "react-icons/bi";
+import { cookies } from "next/headers";
 
 import "./globals.css";
 import Link from "next/link";
@@ -45,8 +49,13 @@ export default function RootLayout({
         <div className="max-lg:hidden grid grid-cols-12 h-screen bg-bg-primary">
           <div className=" border-line flex flex-col gap-5 justify-between items-center shadow-xl">
             <div className="py-8 ">
-              <div className="w-fit flex flex-col items-center hover:bg-slate-50 p-4 rounded-full cursor-pointer">
+              <div className="w-fit flex flex-col items-center hover:bg-slate-50 p-4 rounded-full cursor-pointer hidden">
                 <BiNetworkChart className="text-3xl text-[text-color] bx bxl-github text-black cursor-pointer" />
+              </div>
+
+              <div className="w-fit flex flex-row items-center border hover:bg-slate-50 p-2 rounded-full cursor-pointer gap-2 hidden">
+                <BiCoinStack className="text-2xl text-[text-color] bx bxl-github text-black cursor-pointer" />
+                <p className="text-sm font-bold hidden">10</p>
               </div>
             </div>
             <div className="py-5">
