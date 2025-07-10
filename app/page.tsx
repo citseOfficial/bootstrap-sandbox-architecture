@@ -27,11 +27,11 @@ export default function Home() {
   ];
 
   const versionSpringBootProyect: { value: string; label: string }[] = [
-    { value: "3.4.0-SNAPSHOT", label: "3.4.0 (SNAPSHOT)" },
-    { value: "3.3.5-SNAPSHOT", label: "3.3.5 (SNAPSHOT)" },
-    { value: "3.3.4", label: "3.3.4" },
-    { value: "3.2.11-SNAPSHOT", label: "3.2.11 (SNAPSHOT)" },
-    { value: "3.2.10", label: "3.2.10" },
+    { value: "4.0.0-SNAPSHOT", label: "4.0.0 (SNAPSHOT)" },
+    { value: "3.5.4-SNAPSHOT", label: "3.5.4 (SNAPSHOT)" },
+    { value: "3.5.3", label: "3.5.3" },
+    { value: "3.4.8-SNAPSHOT", label: "3.4.8 (SNAPSHOT)" },
+    { value: "3.4.7", label: "3.4.7" },
   ];
 
   const [valueCreditProyect, setValueCreditProyect] = useState(20);

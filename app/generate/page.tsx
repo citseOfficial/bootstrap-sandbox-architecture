@@ -167,6 +167,79 @@ export default async function Generate() {
     parent: null,
     content: "build/\n.gradle/\n*.jar\n*.war\n*.iml\n.gradle/\n.env\n",
   });
+  addFile({
+    id: 4889,
+    name: "fly.toml",
+    type: "file",
+    parent: null,
+    content: `# fly.toml app configuration file generated for ceis-api on 2024-11-12T11:52:13Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'ceis-api'
+primary_region = 'scl'
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+[[vm]]
+  memory = "2gb"
+  cpus = 4
+  cpu_kind = "shared"
+  memory_mb = 2048
+
+[http_service.http_options]
+  idle_timeout = 270
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 0
+  [services.concurrency]
+    hard_limit = 200
+    soft_limit = 100
+    type = "connections"
+`,
+  });
+
+  addFile({
+    id: 1799,
+    name: "Dockerfile",
+    type: "file",
+    parent: null,
+    content: `# JDK y Gradle
+FROM gradle:8.10.2-jdk17 AS build
+
+# directory
+WORKDIR /app
+COPY . /app
+
+# Deshabilitar la supervisión de archivos en Gradle
+ENV GRADLE_OPTS="-Dorg.gradle.vfs.watch=false"
+
+# run gradle
+RUN gradle clean build
+
+# create image
+FROM openjdk:17-slim
+EXPOSE 8080
+COPY --from=build /app/build/libs/ceis-0.0.1-SNAPSHOT.jar /app/ceis-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "/app/ceis-0.0.1-SNAPSHOT.jar"]
+`,
+  });
 
   const fileTreeBuilder = buildTree(fileTree);
 
